@@ -14,15 +14,25 @@
 
 <script lang="ts">
 import Icon from "@/components/Icon.vue";
+import Vue from "vue";
 
-
-export default {
+export default Vue.extend({
   name: 'Nav',
   components: {Icon},
-};
+
+  data() {
+    return {
+      defaultColor: '#000',
+      selectedColor: '#ffd946',
+    }
+  },
+  methods: {
+
+  }
+});
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 .Nav {
   display: flex;
   justify-content: space-around;
@@ -32,9 +42,12 @@ export default {
 }
 
 .selected {
-   .svg-icon {
-     fill: red;
+  .svg-icon {
+    width: 44px;
+    height: 44px;
+    fill: #ffd946;
   }
 }
+
 
 </style>

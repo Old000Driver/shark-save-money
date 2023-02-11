@@ -3,7 +3,9 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import plugin from "./plugin";
+import Layout from "@/components/Layout.vue";
 
+Vue.component('Layout', Layout);
 Vue.use(plugin, {imports: []})
 
 

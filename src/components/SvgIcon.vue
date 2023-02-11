@@ -1,12 +1,12 @@
 <template>
   <svg
       class="svg-icon"
-      :style="{
-      width: props.size + 'px',
-      height: props.size + 'px',
-      color: props.color
-    }"
+
   >
+    <!--    :style="{
+          width: props.size + 'px',
+          height: props.size + 'px',
+        }"-->
     <use :xlink:href="`#icon-${props.name}`"/>
   </svg>
 </template>
@@ -28,7 +28,6 @@ export default defineComponent({
     },
     color: {
       type: String,
-      default: "#000"
     }
   },
   setup(props) {
@@ -38,3 +37,10 @@ export default defineComponent({
   }
 });
 </script>
+
+<style lang="scss" scoped>
+.svg-icon {
+  width: 40px;
+  height: 40px;
+}
+</style>
