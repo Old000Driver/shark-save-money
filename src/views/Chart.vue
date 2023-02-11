@@ -4,15 +4,16 @@
   </Layout>
 </template>
 
-<script>
+<script lang="ts">
 import Layout from '@/components/Layout.vue';
+import Vue from 'vue';
 
-export default {
+export default Vue.extend({
   name: 'chart',
   components: {Layout},
-};
+});
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 
 </style>

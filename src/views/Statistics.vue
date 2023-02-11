@@ -2,15 +2,13 @@
   <Layout>明细页面</Layout>
 </template>
 <script>
+import Vue from 'vue';
 
-import Layout from '@/components/Layout.vue';
-
-export default {
+export default Vue.extend({
   name: 'Statistics',
-  components: {Layout},
-};
+});
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 
 </style>

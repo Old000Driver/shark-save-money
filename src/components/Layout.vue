@@ -9,11 +9,12 @@
 
 <script>
 import Nav from '@/components/Nav.vue';
+import Vue from 'vue';
 
-export default {
+export default Vue.extend({
   name: 'Layout',
   components: {Nav},
-};
+});
 </script>
 
 <style lang="scss" scoped>
