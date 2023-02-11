@@ -32,6 +32,7 @@ body {
   align-items: center;
 
   > .content {
+    width: 100vw;
     flex-grow: 1;
   }
 }

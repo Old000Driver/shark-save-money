@@ -26,3 +26,14 @@ button, input {
 h1,h2,h3,h4,h5,h6{
   font-weight: normal;
 }
+
+
+select {
+  appearance:none;
+  -moz-appearance:none; /* Firefox */
+  -webkit-appearance:none; /* Safari 和 Chrome */
+  border: none;
+  display: block;
+  position: relative;
+  background: none;
+}
