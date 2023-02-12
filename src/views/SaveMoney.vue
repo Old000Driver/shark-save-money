@@ -1,14 +1,22 @@
 <template>
   <Layout>
-    <div>记账页</div>
+    <TagType/>
+
+    <footer>
+
+    </footer>
   </Layout>
 </template>
 
-<script>
+<script lang="ts">
 import Vue from 'vue';
+import TagType from "@/views/SaveMoney/TagType.vue";
 
 export default Vue.extend({
   name: 'saveMoney',
+  components: {TagType},
+
+
 });
 </script>
 
