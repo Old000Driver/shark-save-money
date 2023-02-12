@@ -29,7 +29,7 @@
         </div>
 
         <div class="tag">
-          <router-link to="">
+          <router-link to="/TagListPage">
             <div class="circle">
               <svg-icon name="arrow"/>
             </div>
@@ -45,15 +45,6 @@
             <svg-icon :name="tag.svgName"/>
           </div>
           <span>{{ tag.name }}</span>
-        </div>
-
-        <div class="tag">
-          <router-link to="">
-            <div class="circle">
-              <svg-icon name="arrow"/>
-            </div>
-            <span>添加</span>
-          </router-link>
         </div>
       </div>
     </main>
@@ -81,8 +72,6 @@ export default Vue.extend({
       selectedExpenseTagList: [
         {name: '餐饮', svgName: 'canYin', type: 'food', id: 1},
         {name: '购物', svgName: 'gouWu', type: 'shop', id: 5},
-        {name: '交通', svgName: 'jiaoTong', type: 'transportation', id: 9},
-        {name: '住宿', svgName: 'fangZi', type: 'house', id: 14},
       ]
     };
   },

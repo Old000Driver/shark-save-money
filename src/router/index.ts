@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import VueRouter, { RouteConfig } from 'vue-router'
+import VueRouter, {RouteConfig} from 'vue-router'
 import statistics from "@/views/Statistics.vue";
 
 Vue.use(VueRouter)
@@ -23,6 +23,11 @@ const routes: Array<RouteConfig> = [
     path: '/saveMoney',
     name: 'saveMoney',
     component: () => import('../views/SaveMoney.vue')
+  },
+  {
+    path: '/TagListPage',
+    name: 'TagListPage',
+    component: () => import('../views/SaveMoney/TagListPage.vue')
   }
 ]
 
