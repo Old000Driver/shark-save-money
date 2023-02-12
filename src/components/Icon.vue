@@ -1,9 +1,7 @@
 <template>
   <div class="iconWrapper" v-if="icon!=='arrow'">
-    <div class="backGround">
       <SvgIcon :name="icon"/>
-    </div>
-    <span>{{ name }}</span>
+    <span>{{ name || '' }}</span>
   </div>
   <div class="iconWrapper" v-else>
     <div class="arrowIcon">
@@ -16,7 +14,6 @@
 
 <script lang="ts">
 import SvgIcon from "@/components/SvgIcon.vue";
-import {Data} from "vue";
 import Vue from "vue";
 
 export default Vue.extend({
@@ -25,16 +22,7 @@ export default Vue.extend({
   props: {
     name: String,
     icon: String,
-    color: String
   },
-  data(): Data {
-    return {}
-  },
-  methods: {
-    // clickFuc(){
-    //
-    // }
-  }
 });
 </script>
 

@@ -22,13 +22,13 @@ export default defineComponent({
       required: true,
       default: "email"
     },
-    size: {
-      type: Number,
-      default: 32
-    },
-    color: {
-      type: String,
-    }
+    // size: {
+    //   type: Number,
+    //   default: 32
+    // },
+    // color: {
+    //   type: String,
+    // }
   },
   setup(props) {
     return {

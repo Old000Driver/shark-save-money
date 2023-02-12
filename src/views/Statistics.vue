@@ -10,13 +10,13 @@
             <select v-model="selectedYear" style="font-size: 16px;">
               <option v-for="year in years"
                       :value="year" :key="year">
-                {{ year+'年' }}
+                {{ year + '年' }}
               </option>
             </select>
             <select class="Bold" v-model="selectedMonth">
               <option v-for="month in months"
                       :value="month" :key="month">
-                {{ month+'月' }}
+                {{ month + '月' }}
               </option>
             </select>
           </div>
@@ -34,40 +34,59 @@
       </div>
     </header>
     <main>
-      <div></div>
-      <div></div>
+      <div>
+        <div class="listHead">
+          <div>
+            <span>今天</span>
+            <span style="margin-left: 10px">星期天</span>
+          </div>
+            <span>收入:xxx</span>
+        </div>
+        <div class="dataList">
+          <div class="dataType">
+            <SvgIcon name="statistics"/>
+            <span style="margin-left: 10px">餐饮</span>
+          </div>
+          <span>-999</span>
+        </div>
+      </div>
     </main>
   </Layout>
 </template>
 <script lang="ts">
-import Vue from 'vue'
-  ;
+import Vue from 'vue';
+import SvgIcon from "@/components/SvgIcon.vue";
+
 
 interface Data {
   selectedYear: number,
   selectedMonth: string,
   years: number[],
-  months:string[],
+  months: string[],
 }
 
 export default Vue.extend({
   name: 'Statistics',
+  components:{
+    SvgIcon,
+  },
   data(): Data {
     return {
       selectedYear: 2023,
       selectedMonth: '',
       years: [],
-      months:['01', '02', '03', '04', '05',
+      months: ['01', '02', '03', '04', '05',
         '06', '07', '08', '09', '10', '11', '12'],
     }
   },
   methods: {
     getYears() {
       const currentYear = new Date().getFullYear();
-      const month = new Date().getMonth()+1
-      if (month < 10){
-        this.selectedMonth = '0'+month.toString()
-      }else {
+      this.selectedYear = currentYear
+      const month = new Date().getMonth() + 1
+      if (month < 10) {
+        this.selectedMonth = '0' + month.toString()
+      } else {
         this.selectedMonth = month.toString()
       }
       for (let i = 1900; i <= currentYear; i++) {
@@ -142,6 +161,33 @@ header {
 .Bold {
   font-size: 20px;
   font-weight: bold;
+}
+
+.listHead{
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 10px 10px 10px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid #A6ACAF;
+  font-size: 14px;
+  color: grey;
+}
+
+.dataList{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 10px 10px 10px;
+  padding-bottom: 4px;
+
+  .dataType{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .svg-icon{
+    width: 18px;
+  }
 }
 
 </style>
