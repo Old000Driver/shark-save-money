@@ -2,7 +2,7 @@
   <Layout>
     <header style="background: #ffd946">
       <div style="font-size: 20px">
-        <img src="../assets/image.png" style="width: 60%"/>
+        <img src="../assets/img/name.png" style="width: 60%"/>
       </div>
       <div class="topNav">
         <div>
