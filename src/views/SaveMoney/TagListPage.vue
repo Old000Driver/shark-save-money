@@ -8,7 +8,7 @@
           </router-link>
           <span>添加支出类型</span>
         </div>
-        <span>完成</span>
+        <span @click="submitTag()">完成</span>
       </div>
       <div>
         <div class="selectedTag">
@@ -21,11 +21,11 @@
       </div>
     </header>
     <main>
-      <div v-for="(value,key) in tagList" :key="key">
+      <div v-for="(value,key) in incomeTagList" :key="key">
         <span style="color: #A6ACAF">{{ getChinese(key) }}</span>
         <div class="tagList">
           <div v-for="(item,key) in value" :key="key"
-               @click="selectTag(item.svgName,item.name)">
+               @click="selectTag(item.svgName,item.name,item.id)">
             <Icon :icon="item.svgName"
                   :name="item.name"/>
           </div>
@@ -42,9 +42,10 @@ import Icon from "@/components/Icon.vue";
 import {getDefaultTagList, TagMine} from "@/lib/defaultTagList";
 
 interface Data {
-  tagList: { [key: string]: Array<TagMine> }
+  incomeTagList: { [key: string]: Array<TagMine> }
   svgName: string,
   tagName: string,
+  id:number
 }
 
 export default Vue.extend({
@@ -54,10 +55,14 @@ export default Vue.extend({
 
   data(): Data {
     return {
-      tagList: getDefaultTagList(),
+      incomeTagList: getDefaultTagList('z'),
       svgName: '',
       tagName: '',
+      id:-1,
     }
+  },
+  computed:{
+
   },
   methods: {
     getChinese(name: string) {
@@ -72,9 +77,21 @@ export default Vue.extend({
       }
       return name
     },
-    selectTag(svgName: string, tagName: string) {
+    selectTag(svgName: string, tagName: string,id:number) {
       this.tagName = tagName
       this.svgName = svgName
+      this.id = id
+    },
+    async submitTag(){
+      const tag = {name: this.tagName, svgName: this.svgName, id: this.id}
+
+      const res = await this.$store.dispatch('addIncomeTagList',tag)
+      if (res){
+        alert('添加成功')
+        await this.$router.push('saveMoney')
+      }else {
+        alert('已添加此标签，请勿重复添加')
+      }
     }
   },
   mounted() {

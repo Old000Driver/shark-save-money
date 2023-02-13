@@ -8,7 +8,6 @@
 @import "~@/assets/style/helper.scss";
 #app {
   font-family: $font-hei;
-  -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;

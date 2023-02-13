@@ -25,7 +25,6 @@ body {
 .wrapper {
   overflow: hidden;
   min-height: 100vh;
-  //border: 1px solid green;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

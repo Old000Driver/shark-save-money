@@ -19,8 +19,8 @@
     </header>
     <main>
       <div v-if="selected === 'z'">
-        <div v-for="tag in selectedIncomeTagList" class="tag"
-             @click="clickTag(tag.id)" :key="tag.id">
+        <div v-for="(tag,key) in selectedIncomeTagList" class="tag"
+             @click="clickTag(tag.id)" :key="key">
           <div class="circle"
                :class="selectedTag === tag.id?'selectedTag':''">
             <svg-icon :name="tag.svgName"/>
@@ -38,8 +38,8 @@
         </div>
       </div>
       <div v-else>
-        <div v-for="tag in selectedExpenseTagList" class="tag"
-             @click="clickTag(tag.id)" :key="tag.id">
+        <div v-for="(tag,key) in expenseTagList" class="tag"
+             @click="clickTag(tag.id)" :key="key">
           <div class="circle"
                :class="selectedTag === tag.id?'selectedTag':''">
             <svg-icon :name="tag.svgName"/>
@@ -54,25 +54,24 @@
 <script lang="ts">
 import Vue from "vue"
 import SvgIcon from "@/components/SvgIcon.vue";
+import {getDefaultTagList, TagMine} from "@/lib/defaultTagList";
+
+interface Data {
+  selectedIncomeTagList: Array<TagMine>,
+  selected: string,
+  selectedTag: number
+  expenseTagList: Array<TagMine>
+}
 
 export default Vue.extend({
   name: "TagType",
   components: {SvgIcon},
-  data() {
+  data(): Data {
     return {
       selected: 'z',
-      tagListId: [1, 2, 3, 4, 5],
       selectedTag: -1,
-      selectedIncomeTagList: [
-        {name: '餐饮', svgName: 'canYin', type: 'food', id: 1},
-        {name: '购物', svgName: 'gouWu', type: 'shop', id: 5},
-        {name: '交通', svgName: 'jiaoTong', type: 'transportation', id: 9},
-        {name: '住宿', svgName: 'fangZi', type: 'house', id: 14},
-      ],
-      selectedExpenseTagList: [
-        {name: '餐饮', svgName: 'canYin', type: 'food', id: 1},
-        {name: '购物', svgName: 'gouWu', type: 'shop', id: 5},
-      ]
+      selectedIncomeTagList: this.$store.state.IncomeTagList,
+      expenseTagList: Object.values(getDefaultTagList('s'))[0]
     };
   },
 
@@ -84,6 +83,9 @@ export default Vue.extend({
       this.selectedTag = id
     }
   },
+  created() {
+    this.$store.commit('fetchIncomeTagList')
+  }
 })
 </script>
 
@@ -93,6 +95,7 @@ header {
 
   justify-content: space-between;
   background: #ffd946;
+  width: 100%;
 
   > div {
     margin: 20px 10px 10px 10px;
@@ -118,6 +121,7 @@ header {
 }
 
 main {
+  width: 100vw;
   padding: 20px 20px 20px 20px;
 
   > div {
