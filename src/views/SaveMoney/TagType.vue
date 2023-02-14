@@ -63,9 +63,11 @@ interface Data {
   expenseTagList: Array<TagMine>
 }
 
+
 export default Vue.extend({
   name: "TagType",
   components: {SvgIcon},
+
   data(): Data {
     return {
       selected: 'z',
@@ -79,14 +81,17 @@ export default Vue.extend({
     clickButton(type: string) {
       this.selected = type === 'z' ? 'z' : 's';
     },
-    clickTag(id: number,type:string,tagName:string) {
+    clickTag(id: number, type: string, tagName: string) {
       this.selectedTag = id
-      this.$emit('getTag',tagName,type)
-      console.log('222',tagName,type)
-    }
+      this.$emit('getTag', tagName, type)
+    },
+    clear() {
+      this.selectedTag = -1
+    },
   },
+
   beforeCreate() {
-    this.$store.commit('fetchIncomeTagList')
+    this.$store.commit('getIncomeTagList')
   }
 })
 </script>

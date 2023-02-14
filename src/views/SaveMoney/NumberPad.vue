@@ -29,7 +29,7 @@ export default Vue.extend({
   name: "NumberPad",
   data() {
     return {
-      output: '',
+      output: '0',
     }
   },
   methods: {
@@ -69,7 +69,6 @@ export default Vue.extend({
       const account = parseFloat(this.output)
       this.$emit('getAccount',account)
       this.$emit('submit')
-      this.$store.commit('saveRecords', account)
     }
   }
 })

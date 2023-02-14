@@ -8,19 +8,20 @@ Vue.use(Vuex)
 interface RecordItem {
   id: number,
   tagName: string,
-  amount: number,
+  account: number,
   createdAt: string,
   note: string,
 }
 
 interface RootState {
   IncomeTagList: Array<TagMine>,
-  recordList: Array<RecordItem>,
+  zRecordList: Array<RecordItem>,
+  sRecordList: Array<RecordItem>,
 }
 
 interface saveRecordsArgs {
   tagName: string,
-  amount: number,
+  account: number,
   note: string,
   type: 's' | 'z'
 }
@@ -28,10 +29,11 @@ interface saveRecordsArgs {
 const store = new Vuex.Store({
   state: {
     IncomeTagList: [] as Array<TagMine>,
-    recordList: [] as Array<RecordItem>,
+    zRecordList: [] as Array<RecordItem>,
+    sRecordList: [] as Array<RecordItem>,
   },
   mutations: {
-    fetchIncomeTagList(state) {
+    getIncomeTagList(state) {
       const list = window.localStorage.getItem('IncomeTagList')
       state.IncomeTagList = list ? JSON.parse(list) as Array<TagMine> : defaultIncomeTagList
     },
@@ -39,12 +41,22 @@ const store = new Vuex.Store({
     saveRecords(state: RootState, args: [RecordItem, 's' | 'z']) {
       const record = args[0]
       const type = args[1]
-      console.log(type)
-      state.recordList.push(record)
       if (type === 'z') {
-        window.localStorage.setItem('z-recordList', JSON.stringify(state.recordList))
+        state.zRecordList.push(record)
+        window.localStorage.setItem('z-recordList', JSON.stringify(state.zRecordList))
       } else {
-        window.localStorage.setItem('s-recordList', JSON.stringify(state.recordList))
+        state.sRecordList.push(record)
+        window.localStorage.setItem('s-recordList', JSON.stringify(state.sRecordList))
+      }
+    },
+    getRecords(state) {
+      const zRecordList = window.localStorage.getItem('z-recordList')
+      const sRecordList = window.localStorage.getItem('s-recordList')
+      if (zRecordList) {
+        state.zRecordList = JSON.parse(zRecordList) as Array<RecordItem>
+      }
+      if (sRecordList) {
+        state.sRecordList = JSON.parse(sRecordList) as Array<RecordItem>
       }
     }
   },
@@ -77,11 +89,11 @@ const store = new Vuex.Store({
         const record: RecordItem = {
           id: createId(),
           tagName: recordArg.tagName,
-          amount: recordArg.amount,
+          account: recordArg.account,
           createdAt: new Date().toISOString(),
           note: recordArg.note
         }
-        context.commit('saveRecord', [record, recordArg.type])
+        context.commit('saveRecords', [record, recordArg.type])
         resolve(true)
       })
     },

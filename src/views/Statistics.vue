@@ -40,7 +40,7 @@
             <span>今天</span>
             <span style="margin-left: 10px">星期天</span>
           </div>
-            <span>收入:xxx</span>
+          <span>收入:xxx</span>
         </div>
         <div class="dataList">
           <div class="dataType">
@@ -67,7 +67,7 @@ interface Data {
 
 export default Vue.extend({
   name: 'Statistics',
-  components:{
+  components: {
     SvgIcon,
   },
   data(): Data {
@@ -93,6 +93,9 @@ export default Vue.extend({
         this.years.push(i);
       }
     }
+  },
+  beforeCreate() {
+    this.$store.commit('getRecords')
   },
   beforeMount() {
     this.getYears()
@@ -163,7 +166,7 @@ header {
   font-weight: bold;
 }
 
-.listHead{
+.listHead {
   display: flex;
   justify-content: space-between;
   margin: 10px 10px 10px 10px;
@@ -173,19 +176,20 @@ header {
   color: grey;
 }
 
-.dataList{
+.dataList {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin: 10px 10px 10px 10px;
   padding-bottom: 4px;
 
-  .dataType{
+  .dataType {
     display: flex;
     justify-content: center;
     align-items: center;
   }
-  .svg-icon{
+
+  .svg-icon {
     width: 18px;
   }
 }

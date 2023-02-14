@@ -1,13 +1,12 @@
 <template>
   <div class="wrapper">
     <main>
-      <TagType @getTag="getTag(tagName,type)"/>
+      <TagType @getTag="getTag" ref="TagType"/>
     </main>
     <footer>
-      {{[this.tagName,this.note,this.account,this.type]}}
-      <Note @getNote="getNote(note)"/>
-      <NumberPad @getAccount="getAccount(account)"
-               @submit="submit"/>
+      <Note :value.sync="note" ref="Note"/>
+      <NumberPad @getAccount="getAccount" @submit="submit" ref="NumberPad"
+      />
     </footer>
   </div>
 </template>
@@ -17,7 +16,6 @@ import Vue from 'vue';
 import TagType from "@/views/SaveMoney/TagType.vue";
 import Note from "@/views/SaveMoney/Note.vue";
 import NumberPad from "@/views/SaveMoney/NumberPad.vue";
-import note from "@/views/SaveMoney/Note.vue";
 
 export default Vue.extend({
   name: 'saveMoney',
@@ -29,6 +27,7 @@ export default Vue.extend({
       account: 0,
       type: '',
       tagName: '',
+      selectedTag: -1,
     }
   },
   methods: {
@@ -39,8 +38,21 @@ export default Vue.extend({
         note: this.note,
         type: this.type
       }
-      console.log('4444',payload)
-      await this.$store.dispatch('saveRecords', payload)
+
+      if (!payload.tagName) {
+        alert('请选择标签')
+        return
+      } else if (!payload.account) {
+        alert('请输入金额')
+        return
+      }
+      const res = await this.$store.dispatch('saveRecords', payload)
+      if (res) {
+        alert('保存成功')
+        this.clearTable()
+      } else {
+        alert('保存失败')
+      }
     },
     getTag(tagName: string, type: string) {
       this.tagName = tagName
@@ -51,6 +63,16 @@ export default Vue.extend({
     },
     getNote(value: string) {
       this.note = value
+    },
+    clearTable() {
+      this.note = ''
+      this.account = 0
+      this.type = ''
+      this.tagName = '';
+
+      (this.$refs.TagType as any).clear();
+      (this.$refs.Note as any).clear();
+      (this.$refs.NumberPad as any).clear();
     }
   }
 
