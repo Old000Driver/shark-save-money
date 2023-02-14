@@ -50,6 +50,7 @@ export default Vue.extend({
       if (res) {
         alert('保存成功')
         this.clearTable()
+        this.$store.commit('getRecords')
         await this.$router.push('/Statistics')
       } else {
         alert('保存失败')

@@ -53,6 +53,7 @@ const store = new Vuex.Store({
     getRecords(state) {
       const zRecordList = window.localStorage.getItem('z-recordList')
       const sRecordList = window.localStorage.getItem('s-recordList')
+
       if (zRecordList) {
         state.zRecordList = JSON.parse(zRecordList) as Array<RecordItem>
       }

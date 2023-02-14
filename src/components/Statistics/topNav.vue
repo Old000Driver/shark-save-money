@@ -7,7 +7,7 @@
       <div>
         <div class="timeSelector">
           <select v-model="selectedYear"
-                  @change="$emit('getDate', selectedYear,selectedMonth)"
+                  @change="dateChange"
                   style="font-size: 16px;">
             <option v-for="year in years"
                     :value="year" :key="year">
@@ -24,14 +24,15 @@
         </div>
         <div class="income">
           <span>收入</span>
-          <div class="Bold">yyy.00
+          <div class="Bold">
+            {{ zTotal }}
             <div></div>
           </div>
         </div>
       </div>
       <div class="expenses">
         <span>支出</span>
-        <div class="Bold">xxx.00</div>
+        <div class="Bold">{{ sTotal }}</div>
       </div>
     </div>
   </header>
@@ -40,11 +41,25 @@
 <script lang="ts">
 import Vue from "vue"
 
+interface RecordItem {
+  id: number,
+  tagName: string,
+  account: number,
+  createdAt: string,
+  note: string,
+}
+
 interface Data {
   selectedYear: number,
   selectedMonth: string,
   years: number[],
   months: string[],
+  zRecords: Array<RecordItem>,
+  sRecords: Array<RecordItem>,
+  zTotal: number,
+  sTotal: number,
+  selectedDate: string
+
 }
 
 export default Vue.extend({
@@ -53,6 +68,11 @@ export default Vue.extend({
     return {
       selectedYear: 2023,
       selectedMonth: '',
+      zRecords: this.$store.state.sRecordList,
+      sRecords: this.$store.state.zRecordList,
+      zTotal: 0,
+      sTotal: 0,
+      selectedDate: '',
       years: [],
       months: ['01', '02', '03', '04', '05',
         '06', '07', '08', '09', '10', '11', '12'],
@@ -71,10 +91,40 @@ export default Vue.extend({
       for (let i = 1900; i <= currentYear; i++) {
         this.years.push(i);
       }
+    },
+    getSelectedDate() {
+      this.selectedDate = this.selectedYear + '-' + this.selectedMonth
+    },
+    dateChange() {
+      this.getSelectedDate()
+      this.getTotalAmount()
+    },
+    getTotalAmount() {
+      this.zTotal = 0
+      this.sTotal = 0
+      // 筛选出当年当月的数据
+      const zList = this.zRecords.filter((item: any) => {
+        return item.createdAt.slice(0, 7) === this.selectedDate
+      })
+      zList.forEach((item: any) => {
+        this.zTotal += item.account
+      })
+
+
+      const sList = this.sRecords.filter((item: any) => {
+        return item.createdAt.slice(0, 7) === this.selectedDate
+      })
+      sList.forEach((item: any) => {
+        this.sTotal += item.account
+      })
     }
+
   },
-  beforeMount() {
+
+  mounted() {
     this.getYears()
+    this.dateChange()
+
   },
 })
 </script>
