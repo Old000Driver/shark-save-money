@@ -26,7 +26,7 @@
 import Vue from "vue"
 
 export default Vue.extend({
-  name: "NotePad",
+  name: "NumberPad",
   data() {
     return {
       output: '',
@@ -66,10 +66,10 @@ export default Vue.extend({
     },
 
     ok() {
-      const number = parseFloat(this.output)
-      this.$emit('update:value', number);
-      this.$emit('submit', number);
-      this.output = '0';
+      const account = parseFloat(this.output)
+      this.$emit('getAccount',account)
+      this.$emit('submit')
+      this.$store.commit('saveRecords', account)
     }
   }
 })

@@ -1,11 +1,13 @@
 <template>
   <div class="wrapper">
     <main>
-      <TagType/>
+      <TagType @getTag="getTag(tagName,type)"/>
     </main>
     <footer>
-      <Note @getNote="(value)=>{this.note = value}"/>
-      <NotePad/>
+      {{[this.tagName,this.note,this.account,this.type]}}
+      <Note @getNote="getNote(note)"/>
+      <NumberPad @getAccount="getAccount(account)"
+               @submit="submit"/>
     </footer>
   </div>
 </template>
@@ -14,15 +16,41 @@
 import Vue from 'vue';
 import TagType from "@/views/SaveMoney/TagType.vue";
 import Note from "@/views/SaveMoney/Note.vue";
-import NotePad from "@/views/SaveMoney/NumberPad.vue";
+import NumberPad from "@/views/SaveMoney/NumberPad.vue";
+import note from "@/views/SaveMoney/Note.vue";
 
 export default Vue.extend({
   name: 'saveMoney',
-  components: {NotePad, Note, TagType},
+  components: {NumberPad, Note, TagType},
 
   data() {
     return {
-      note: ''
+      note: '',
+      account: 0,
+      type: '',
+      tagName: '',
+    }
+  },
+  methods: {
+    async submit() {
+      const payload = {
+        tagName: this.tagName,
+        account: this.account,
+        note: this.note,
+        type: this.type
+      }
+      console.log('4444',payload)
+      await this.$store.dispatch('saveRecords', payload)
+    },
+    getTag(tagName: string, type: string) {
+      this.tagName = tagName
+      this.type = type
+    },
+    getAccount(account: number) {
+      this.account = account
+    },
+    getNote(value: string) {
+      this.note = value
     }
   }
 

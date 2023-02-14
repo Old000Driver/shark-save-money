@@ -3,7 +3,7 @@
   <svg-icon name="note"></svg-icon>
   <span>备注：</span>
   <input placeholder="写点备注吧~" v-model="note"
-         @blur="this.$emit('getNote',note)"/>
+         @blur="sendNote(note)"/>
 </div>
 </template>
 
@@ -18,6 +18,11 @@ export default Vue.extend({
   data(){
     return{
       note:''
+    }
+  },
+  methods:{
+    sendNote(note:string){
+      this.$emit('getNote',note)
     }
   }
 })

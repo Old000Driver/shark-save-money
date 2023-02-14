@@ -20,7 +20,7 @@
     <main>
       <div v-if="selected === 'z'">
         <div v-for="(tag,key) in selectedIncomeTagList" class="tag"
-             @click="clickTag(tag.id)" :key="key">
+             @click="clickTag(tag.id,'z',tag.name)" :key="key">
           <div class="circle"
                :class="selectedTag === tag.id?'selectedTag':''">
             <svg-icon :name="tag.svgName"/>
@@ -39,7 +39,7 @@
       </div>
       <div v-else>
         <div v-for="(tag,key) in expenseTagList" class="tag"
-             @click="clickTag(tag.id)" :key="key">
+             @click="clickTag(tag.id,'s',tag.name)" :key="key">
           <div class="circle"
                :class="selectedTag === tag.id?'selectedTag':''">
             <svg-icon :name="tag.svgName"/>
@@ -79,11 +79,13 @@ export default Vue.extend({
     clickButton(type: string) {
       this.selected = type === 'z' ? 'z' : 's';
     },
-    clickTag(id: number) {
+    clickTag(id: number,type:string,tagName:string) {
       this.selectedTag = id
+      this.$emit('getTag',tagName,type)
+      console.log('222',tagName,type)
     }
   },
-  created() {
+  beforeCreate() {
     this.$store.commit('fetchIncomeTagList')
   }
 })
