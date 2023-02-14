@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import {defaultIncomeTagList, TagMine} from "@/lib/defaultTagList";
 import {createId} from "@/lib/createId";
+import {createAt} from "@/lib/createAt";
 
 Vue.use(Vuex)
 
@@ -90,7 +91,7 @@ const store = new Vuex.Store({
           id: createId(),
           tagName: recordArg.tagName,
           account: recordArg.account,
-          createdAt: new Date().toISOString(),
+          createdAt: createAt(),
           note: recordArg.note
         }
         context.commit('saveRecords', [record, recordArg.type])

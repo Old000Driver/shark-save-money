@@ -27,7 +27,7 @@ const routes: Array<RouteConfig> = [
   {
     path: '/TagListPage',
     name: 'TagListPage',
-    component: () => import('../views/SaveMoney/TagListPage.vue')
+    component: () => import('../components/SaveMoney/TagListPage.vue')
   }
 ]
 

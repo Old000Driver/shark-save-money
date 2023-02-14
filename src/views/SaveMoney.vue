@@ -4,7 +4,7 @@
       <TagType @getTag="getTag" ref="TagType"/>
     </main>
     <footer>
-      <Note :value.sync="note" ref="Note"/>
+      <Note @getNote="getNote" ref="Note"/>
       <NumberPad @getAccount="getAccount" @submit="submit" ref="NumberPad"
       />
     </footer>
@@ -13,9 +13,9 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import TagType from "@/views/SaveMoney/TagType.vue";
-import Note from "@/views/SaveMoney/Note.vue";
-import NumberPad from "@/views/SaveMoney/NumberPad.vue";
+import TagType from "@/components/SaveMoney/TagType.vue";
+import Note from "@/components/SaveMoney/Note.vue";
+import NumberPad from "@/components/SaveMoney/NumberPad.vue";
 
 export default Vue.extend({
   name: 'saveMoney',
@@ -50,6 +50,7 @@ export default Vue.extend({
       if (res) {
         alert('保存成功')
         this.clearTable()
+        await this.$router.push('/Statistics')
       } else {
         alert('保存失败')
       }
