@@ -1,7 +1,7 @@
 <template>
   <header style="background: #ffd946">
     <div style="font-size: 20px">
-      <img src="@/assets/img/name.png" style="width: 60%"/>
+      <img src="@/assets/img/name.png" style="width: 60%" alt=""/>
     </div>
     <div class="topNav">
       <div>
@@ -15,7 +15,7 @@
             </option>
           </select>
           <select class="Bold" v-model="selectedMonth"
-                  @change="$emit('getDate', selectedYear,selectedMonth)">
+                  @change="dateChange">
             <option v-for="month in months"
                     :value="month" :key="month">
               {{ month + '月' }}
@@ -25,7 +25,7 @@
         <div class="income">
           <span>收入</span>
           <div class="Bold">
-            {{ zTotal }}
+            {{ Math.abs(zTotal)  }}
             <div></div>
           </div>
         </div>
@@ -40,14 +40,8 @@
 
 <script lang="ts">
 import Vue from "vue"
+import {RecordItem} from "@/custom";
 
-interface RecordItem {
-  id: number,
-  tagName: string,
-  account: number,
-  createdAt: string,
-  note: string,
-}
 
 interface Data {
   selectedYear: number,
@@ -68,8 +62,8 @@ export default Vue.extend({
     return {
       selectedYear: 2023,
       selectedMonth: '',
-      zRecords: this.$store.state.sRecordList,
-      sRecords: this.$store.state.zRecordList,
+      zRecords: this.$store.state.zRecordList,
+      sRecords: this.$store.state.sRecordList,
       zTotal: 0,
       sTotal: 0,
       selectedDate: '',
@@ -103,29 +97,30 @@ export default Vue.extend({
       this.zTotal = 0
       this.sTotal = 0
       // 筛选出当年当月的数据
-      const zList = this.zRecords.filter((item: any) => {
-        return item.createdAt.slice(0, 7) === this.selectedDate
-      })
-      zList.forEach((item: any) => {
+      const zList = this.getNowMothList(this.zRecords)
+      zList.forEach((item: RecordItem) => {
         this.zTotal += item.account
       })
 
-
-      const sList = this.sRecords.filter((item: any) => {
-        return item.createdAt.slice(0, 7) === this.selectedDate
-      })
-      sList.forEach((item: any) => {
+      const sList = this.getNowMothList(this.sRecords)
+      sList.forEach((item: RecordItem) => {
         this.sTotal += item.account
       })
-    }
 
+      const selectedDate = this.selectedDate
+      this.$emit('getRecordList', zList, sList,selectedDate)
+    },
+    getNowMothList(records: Array<RecordItem>) {
+      return records.filter((item: RecordItem) => {
+        return item.createdAt.slice(0, 7) === this.selectedDate
+      })
+    },
   },
-
-  mounted() {
+  created() {
     this.getYears()
     this.dateChange()
 
-  },
+  }
 })
 </script>
 
