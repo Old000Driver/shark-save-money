@@ -3,28 +3,14 @@ import Vuex from 'vuex'
 import {defaultIncomeTagList, TagMine} from "@/lib/defaultTagList";
 import {createId} from "@/lib/createId";
 import {createAt} from "@/lib/createAt";
+import {RecordItem, saveRecordsArgs} from "@/custom";
 
 Vue.use(Vuex)
-
-interface RecordItem {
-  id: number,
-  tagName: string,
-  account: number,
-  createdAt: string,
-  note: string,
-}
 
 interface RootState {
   IncomeTagList: Array<TagMine>,
   zRecordList: Array<RecordItem>,
   sRecordList: Array<RecordItem>,
-}
-
-interface saveRecordsArgs {
-  tagName: string,
-  account: number,
-  note: string,
-  type: 's' | 'z'
 }
 
 const store = new Vuex.Store({
