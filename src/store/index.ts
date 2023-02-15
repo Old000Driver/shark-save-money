@@ -29,6 +29,7 @@ const store = new Vuex.Store({
       const record = args[0]
       const type = args[1]
       if (type === 'z') {
+        record.account = -record.account
         state.zRecordList.push(record)
         window.localStorage.setItem('z-recordList', JSON.stringify(state.zRecordList))
       } else {
