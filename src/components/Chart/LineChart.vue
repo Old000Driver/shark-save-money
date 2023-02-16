@@ -34,17 +34,25 @@ export default Vue.extend({
       showTimeType: '',
     }
   },
-  watch: {
-    chartProps() {
-      this.changeTypeName()
-      this.setEcharts(this.chartProps.xData, this.chartProps.yData, this.maxValue)
+  watch:{
+    timeType(){
+      this.propsChange()
     },
+    amountType(){
+      this.propsChange()
+    }
   },
   methods: {
+    propsChange() {
+      this.changeTypeName()
+      console.log('chartProps',this.chartProps)
+      this.setEcharts(this.chartProps.xData, this.chartProps.yData)
+    },
     initEcharts() {
       this.myChart = echarts.init(window.document.getElementById('chart') as HTMLDivElement)
     },
     changeTypeName(){
+      // console.log('444',this.timeType)
       if (this.timeType === 'week') {
         this.showTimeType = '本周'
       } else if (this.timeType === 'month') {
@@ -53,7 +61,7 @@ export default Vue.extend({
         this.showTimeType = '今年'
       }
     },
-    setEcharts(xData: string[], yData: number[], maxValue: number) {
+    setEcharts(xData: string[], yData: number[]) {
       if (this.myChart) {
         this.myChart.setOption({
           xAxis: {
@@ -80,8 +88,6 @@ export default Vue.extend({
             },
             splitNumber: 2,
             min: 0,
-            max: maxValue,
-            interval: maxValue / 2,
           }],
           series: [
             {
@@ -97,8 +103,7 @@ export default Vue.extend({
   mounted() {
     this.initEcharts()
     this.maxValue = Math.max(...this.chartProps.yData)
-    this.changeTypeName()
-    this.setEcharts(this.chartProps.xData, this.chartProps.yData, this.maxValue)
+    this.propsChange()
   }
 })
 </script>

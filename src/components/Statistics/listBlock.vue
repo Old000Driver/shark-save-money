@@ -167,7 +167,6 @@ export default Vue.extend({
         }
       }
       this.showList = this.sortShowList(showList)
-      console.log('showList', this.showList)
     }
   }
 })

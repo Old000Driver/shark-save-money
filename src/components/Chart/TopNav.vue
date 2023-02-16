@@ -35,8 +35,14 @@ export default Vue.extend({
   methods: {
     clickTimeSelector(type: string) {
       this.selectedTime = type
+      const amountType = this.amountType
+      const timeType = this.selectedTime
+      this.$emit('changeType', amountType, timeType)
     },
-    changeType() {
+    changeType($event?: Event){
+      if ($event) {
+        this.amountType = ($event.target as HTMLSelectElement).value
+      }
       const amountType = this.amountType
       const timeType = this.selectedTime
       this.$emit('changeType', amountType, timeType)
