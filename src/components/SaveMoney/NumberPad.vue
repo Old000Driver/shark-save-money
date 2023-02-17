@@ -50,6 +50,12 @@ export default Vue.extend({
       if (this.output.indexOf('.') >= 0 && input === '.') {
         return;
       }
+      if (this.output.indexOf('.') >= 0) {
+        const [integer, decimal] = this.output.split('.')
+        if (decimal.length >= 2) {
+          return
+        }
+      }
       this.output += input;
     },
 
@@ -67,7 +73,7 @@ export default Vue.extend({
 
     ok() {
       const account = parseFloat(this.output)
-      this.$emit('getAccount',account)
+      this.$emit('getAccount', account)
       this.$emit('submit')
     }
   }
@@ -120,7 +126,7 @@ export default Vue.extend({
         width: 25*2%;
       }
 
-      &.dot{
+      &.dot {
         font-weight: bold;
       }
 
