@@ -10,7 +10,7 @@
           <span>{{item.tagName}}</span>
           <span>{{ item.percentage }}</span>
         </div>
-        <span style="padding-right: 10px">{{ item.totalAmount}}</span>
+        <span style="padding-right: 10px">￥{{ item.totalAmount}}</span>
       </div>
     </div>
   </div>

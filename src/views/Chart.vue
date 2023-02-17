@@ -209,7 +209,7 @@ export default Vue.extend({
           .sort((a, b) => b[1].totalAmount - a[1].totalAmount)
           .map(item => item[1]);
 
-      console.log(this.listProps)
+      // console.log(this.listProps)
     }
   },
   created() {

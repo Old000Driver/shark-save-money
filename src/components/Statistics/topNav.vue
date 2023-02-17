@@ -148,6 +148,7 @@ header {
       justify-content: center;
       align-items: flex-start;
       flex-direction: column;
+      flex-wrap: nowrap;
     }
 
     .timeSelector {
