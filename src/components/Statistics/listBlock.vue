@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <main class="listWrapper">
     <div v-for="(value,key) in showList" :key="key">
       <div class="listHead">
         <div>
@@ -16,6 +16,9 @@
         <span>{{ item.account }}</span>
       </div>
     </div>
+    <div class="noRecord">
+    <noRecord v-if="Object.keys(showList).length === 0"/>
+    </div>
   </main>
 
 </template>
@@ -26,6 +29,7 @@ import SvgIcon from "@/components/SvgIcon.vue";
 import {RecordItem} from "@/custom";
 import {createAt} from "@/lib/createAt";
 import {fetchSvg} from "@/lib/fetchSvg";
+import noRecord from "@/components/noRecord.vue";
 
 interface showRecord extends RecordItem {
   svgName?: string;
@@ -44,6 +48,7 @@ export default Vue.extend({
   name: "listBlock",
   components: {
     SvgIcon,
+    noRecord
   },
   props: {
     zList: Array,
@@ -160,6 +165,17 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
+.listWrapper{
+  width: 100%;
+  height: 100%;
+  >.noRecord{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
 .listHead {
   display: flex;
   justify-content: space-between;

@@ -13,16 +13,20 @@
         <span style="padding-right: 10px">￥{{ item.totalAmount}}</span>
       </div>
     </div>
+    <div v-if="listProps.length === 0" class="NoRecord">
+      <NoRecord />
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue"
 import SvgIcon from "@/components/SvgIcon.vue";
+import NoRecord from "@/components/noRecord.vue";
 
 export default Vue.extend({
   name: "footerList",
-  components: {SvgIcon},
+  components: {NoRecord, SvgIcon},
   props: {
     listProps: Array,
     amountType: String
@@ -32,14 +36,18 @@ export default Vue.extend({
 
 <style lang="scss" scoped>
 .footerWrapper {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-
   margin-left: 20px;
+  height: 100%;
 
   > .listWrapper {
+    $height:100%;
+    $NavHeight:70px;
+    height: calc(#{$height} - #{$NavHeight});
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -47,6 +55,8 @@ export default Vue.extend({
     line-height: 14px;
     font-size: 14px;
     flex-grow: 1;
+
+
 
     > div {
       display: flex;
@@ -82,10 +92,13 @@ export default Vue.extend({
           border-radius: 50%;
         }
       }
-
-
     }
-
+  }
+  >.NoRecord{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
   }
 }
 </style>

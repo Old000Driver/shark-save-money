@@ -1,14 +1,12 @@
 <template>
   <Layout>
-    <header>
+    <div class="chartWrapper">
       <top-nav @changeType="getType"/>
-    </header>
-    <main>
       <Chart :chartProps=chartProps :timeType="timeType" :amountType="amountType"/>
-    </main>
-    <footer>
+      <div class="footerWrapper">
       <footer-list :amountType="amountType" :listProps="listProps"/>
-    </footer>
+      </div>
+    </div>
   </Layout>
 </template>
 
@@ -221,5 +219,18 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
+.chartWrapper{
+  display: flex;
+  flex-direction: column;
 
+  width: 100%;
+  height: 100%;
+  >.footerWrapper{
+    height: 100%;
+    flex-grow: 1;
+  }
+}
+footer{
+  height: 100%;
+}
 </style>

@@ -22,6 +22,9 @@ body {
   min-height: 100vh;
 }
 
+$height: 100vh;
+$NavHeight: 70px;
+
 .wrapper {
   overflow: hidden;
   min-height: 100vh;
@@ -30,10 +33,12 @@ body {
   justify-content: space-between;
   align-items: center;
 
-  > .content {
-    width: 100vw;
-    flex-grow: 1;
-  }
+
+}
+
+.content {
+  width: 100vw;
+  height: calc(#{$height} - #{$NavHeight});
 }
 
 

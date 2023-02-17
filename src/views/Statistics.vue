@@ -1,7 +1,12 @@
 <template>
   <Layout>
-    <top-nav @getRecordList="getRecordList"/>
-    <list-block :zList=zList :sList="sList"/>
+    <div class="StatisticsWrapper">
+
+      <top-nav @getRecordList="getRecordList"/>
+      <div class="listBlock">
+        <list-block :zList=zList :sList="sList"/>
+      </div>
+    </div>
   </Layout>
 </template>
 <script lang="ts">
@@ -45,6 +50,13 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
+.StatisticsWrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 
-
+  > .listBlock {
+    height: 100%;
+  }
+}
 </style>

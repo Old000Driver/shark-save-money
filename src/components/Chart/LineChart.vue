@@ -112,7 +112,6 @@ export default Vue.extend({
 <style lang="scss" scoped>
 .chartWrapper {
   width: 100%;
-  height: 300px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -138,7 +137,7 @@ export default Vue.extend({
 
   > #chart {
     width: 100%;
-    height: 100%;
+    height: 60%;
   }
 }
 </style>
