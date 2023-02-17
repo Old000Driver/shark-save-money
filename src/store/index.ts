@@ -47,7 +47,8 @@ const store = new Vuex.Store({
       if (sRecordList) {
         state.sRecordList = JSON.parse(sRecordList) as Array<RecordItem>
       }
-    }
+    },
+
   },
   actions: {
     addIncomeTagList({state}, tag: TagMine) {
@@ -86,8 +87,7 @@ const store = new Vuex.Store({
         resolve(true)
       })
     },
-  }
-  ,
+  },
   modules: {}
 })
 

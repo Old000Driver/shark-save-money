@@ -24,8 +24,8 @@
 import Vue from "vue"
 import SvgIcon from "@/components/SvgIcon.vue";
 import {RecordItem} from "@/custom";
-import {tagList} from "@/lib/defaultTagList";
 import {createAt} from "@/lib/createAt";
+import {fetchSvg} from "@/lib/fetchSvg";
 
 interface showRecord extends RecordItem {
   svgName?: string;
@@ -100,7 +100,7 @@ export default Vue.extend({
       const diff = Date.parse(nowDate) - Date.parse(oldDate)
       const oneDayMilliseconds = 1000 * 60 * 60 * 24
       let diffDays = Math.floor(diff / oneDayMilliseconds)
-      if (diffDays > 24){
+      if (diffDays > 24) {
         let chineseDate = date.slice(5)
         chineseDate = chineseDate.replace('-', '月')
         return chineseDate + '日'
@@ -114,7 +114,7 @@ export default Vue.extend({
       } else if (diffDays < 2 && diffDays >= 1) {
         // 目标日期在昨天之前
         return '昨天'
-      } else if ( diffDays < 3) {
+      } else if (diffDays < 3) {
         // 目标日期在今天之后
         return '前天'
       } else {
@@ -130,19 +130,6 @@ export default Vue.extend({
         newList[list[index]] = showList[list[index]]
       }
       return newList
-    },
-    fetchSvg(tagName: string) {
-      const list = tagList
-      let svgName = ''
-      for (let index in list) {
-        let list2 = list[index]
-        for (let index2 in list2) {
-          if (list2[index2].name === tagName) {
-            svgName = list2[index2].svgName
-          }
-        }
-      }
-      return svgName
     },
   },
   watch: {
@@ -163,7 +150,7 @@ export default Vue.extend({
 
         for (let index in showList[key].records) {
           let record = showList[key].records[index]
-          record.svgName = this.fetchSvg(record.tagName)
+          record.svgName = fetchSvg(record.tagName)
         }
       }
       this.showList = this.sortShowList(showList)
