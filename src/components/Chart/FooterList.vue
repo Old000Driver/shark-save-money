@@ -1,27 +1,16 @@
 <template>
   <div class="footerWrapper">
-    <span style="margin-top: 5px">支出排行榜</span>
+    <span style="margin-top: 5px">{{amountType}}排行榜</span>
     <div class="listWrapper">
-      <div>
+      <div v-for="(item,key) in listProps" :key="key">
         <div>
           <div class="svgBackground">
-            <svg-icon name="canYin"/>
+            <svg-icon :name="item.svgName"/>
           </div>
-          <span>餐饮</span>
-          <span>100%</span>
+          <span>{{item.tagName}}</span>
+          <span>{{ item.percentage }}</span>
         </div>
-        <span style="padding-right: 10px">123455</span>
-      </div>
-
-      <div>
-        <div>
-          <div class="svgBackground">
-            <svg-icon name="canYin"/>
-          </div>
-          <span>餐饮</span>
-          <span>100%</span>
-        </div>
-        <span style="padding-right: 10px">123455</span>
+        <span style="padding-right: 10px">{{ item.totalAmount}}</span>
       </div>
     </div>
   </div>
@@ -33,13 +22,16 @@ import SvgIcon from "@/components/SvgIcon.vue";
 
 export default Vue.extend({
   name: "footerList",
-  components: {SvgIcon}
-
+  components: {SvgIcon},
+  props: {
+    listProps: Array,
+    amountType: String
+  },
 })
 </script>
 
 <style lang="scss" scoped>
-.footerWrapper{
+.footerWrapper {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -47,7 +39,7 @@ export default Vue.extend({
 
   margin-left: 20px;
 
-  >.listWrapper{
+  > .listWrapper {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -56,20 +48,23 @@ export default Vue.extend({
     font-size: 14px;
     flex-grow: 1;
 
-    >div{
+    > div {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 10px;
-      >div{
+
+      > div {
         display: flex;
         align-items: center;
         width: 100%;
-        >span{
+
+        > span {
           display: flex;
           margin-left: 10px;
         }
-        .svgBackground{
+
+        .svgBackground {
           display: flex;
           justify-content: center;
           align-items: center;
@@ -79,7 +74,8 @@ export default Vue.extend({
           background: #f5f5f5;
           border-radius: 50%;
         }
-        .svg-icon{
+
+        .svg-icon {
           background: #f5f5f5;
           width: 20px;
           height: 20px;

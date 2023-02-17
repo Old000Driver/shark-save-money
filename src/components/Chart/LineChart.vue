@@ -45,7 +45,7 @@ export default Vue.extend({
   methods: {
     propsChange() {
       this.changeTypeName()
-      console.log('chartProps',this.chartProps)
+      // console.log('chartProps',this.chartProps)
       this.setEcharts(this.chartProps.xData, this.chartProps.yData)
     },
     initEcharts() {
@@ -93,7 +93,8 @@ export default Vue.extend({
             {
               type: 'line',
               data: yData,
-            }
+            },
+
           ]
         })
       }

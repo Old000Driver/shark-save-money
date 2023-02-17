@@ -7,7 +7,7 @@
       <Chart :chartProps=chartProps :timeType="timeType" :amountType="amountType"/>
     </main>
     <footer>
-      <footer-list/>
+      <footer-list :amountType="amountType" :listProps="listProps"/>
     </footer>
   </Layout>
 </template>
@@ -18,6 +18,7 @@ import Vue from 'vue';
 import Chart from "@/components/Chart/LineChart.vue";
 import FooterList from "@/components/Chart/FooterList.vue";
 import TopNav from "@/components/Chart/TopNav.vue";
+import {fetchSvg} from "@/lib/fetchSvg";
 
 export default Vue.extend({
   name: 'chart',
@@ -35,15 +36,17 @@ export default Vue.extend({
         yData: [] as number[],
         totalAmount: 0,
         averageAmount: 0
-      }
+      },
+      listProps: [{}]
     }
   },
   methods: {
     getType(amountType: string, timeType: string) {
       this.amountType = amountType
       this.timeType = timeType
-      console.log('111', amountType, timeType)
+      // console.log('111', amountType, timeType)
       this.computeChartProps(amountType, timeType)
+      this.computeListProps(amountType, timeType)
     },
     getXMonth() {
       const now = new Date();
@@ -64,7 +67,8 @@ export default Vue.extend({
       const dateArray = [];
       for (let i = 1; i <= daysInMonth; i++) {
         const day = i < 10 ? `0${i}` : i;
-        const date = `${year}-${month}-${day}`;
+        const monthStr = month < 10 ? `0${month}` : month;
+        const date = `${year}-${monthStr}-${day}`;
         dateArray.push(date);
       }
       return dateArray;
@@ -82,29 +86,54 @@ export default Vue.extend({
       }
       return weekDates;
     },
+    getOneYearMonth() {
+      // 获取当前年份
+      const currentYear = new Date().getFullYear();
+      // 用于存储所有月份的数组
+      const months = [];
+      // 循环从 1 到 12
+      for (let i = 1; i <= 12; i++) {
+        // 构造对应月份的 Date 对象
+        const date = new Date(currentYear, i - 1, 1);
+        // 将 Date 对象格式化为字符串，格式为 'yyyy-mm'
+        const monthString = date.toISOString().slice(0, 7);
+        // 将格式化后的字符串推入数组
+        months.push(monthString);
+      }
+      return months
+    },
+    getDates(timeType: string) {
+      if (timeType === 'week') {
+        this.chartProps.xData = this.week
+        return this.getWeekDates()
+      } else if (timeType === 'month') {
+        this.chartProps.xData = this.getXMonth()
+        return this.getYMonth()
+      } else if (timeType === 'year') {
+        this.chartProps.xData = this.year
+        return this.getOneYearMonth()
+      } else {
+        return ['']
+      }
+    },
     computeChartProps(amountType: string, timeType: string) {
       let records = []
       let totalAmount = 0
       let dates = ['']
       const dateAmount = {} as { [key: string]: number }
+
       if (amountType === '支出') {
         records = this.zRecords
       } else {
         records = this.sRecords
       }
-      if (timeType === 'week') {
-        this.chartProps.xData = this.week
-        dates = this.getWeekDates()
-      } else if (timeType === 'month') {
-        this.chartProps.xData = this.getXMonth()
-        dates = this.getYMonth()
-      } else if (timeType === 'year') {
-        this.chartProps.xData = this.year
-      }
+
+      dates = this.getDates(timeType)
+
       for (let index in records) {
         let item = records[index]
-        let day = item.createdAt
-
+        let day = timeType === 'year' ?
+            item.createdAt.slice(0, 7) : item.createdAt
         if (dates.includes(day)) {
           totalAmount += Math.abs(item.account)
           dateAmount[day] = Math.abs(item.account)
@@ -118,13 +147,14 @@ export default Vue.extend({
         }
       }
       for (let key in dateAmount) {
-        let tempKey = key.slice(8)
+        let tempKey = key.slice(-2)
         dateAmount[tempKey] = dateAmount[key]
         delete dateAmount[key]
       }
       this.chartProps.yData = Object.entries(dateAmount)
           .sort((a, b) => parseInt(a[0]) - parseInt(b[0]))
           .map(item => item[1]);
+
       this.chartProps.totalAmount = totalAmount
       if (timeType === 'week') {
         this.chartProps.averageAmount = parseFloat((totalAmount / 7).toFixed(2))
@@ -133,10 +163,54 @@ export default Vue.extend({
       } else if (timeType === 'year') {
         this.chartProps.averageAmount = parseFloat((totalAmount / 12).toFixed(2))
       }
-      console.log('dateAmount',dateAmount)
+      // console.log('dateAmount',dateAmount)
+    },
+    computeListProps(amountType: string, timeType: string) {
+      let records = []
+      let dates = ['']
+      const amountTypes = {} as { [key: string]: { svgName: string, tagName: string, percentage?: any, totalAmount: number } }
+
+      if (amountType === '支出') {
+        records = this.zRecords
+      } else {
+        records = this.sRecords
+      }
+
+      dates = this.getDates(timeType)
+
+      for (let index in records) {
+        let item = records[index]
+        let day = timeType === 'year' ?
+            item.createdAt.slice(0, 7) : item.createdAt
+        if (dates.includes(day)) {
+          if (amountTypes[item.tagName]) {
+            amountTypes[item.tagName].totalAmount += Math.abs(item.account)
+          } else {
+            amountTypes[item.tagName] = {
+              svgName: fetchSvg(item.tagName),
+              tagName: item.tagName,
+              totalAmount: Math.abs(item.account)
+            }
+          }
+        }
+      }
+
+      // 计算percentage
+      let totalAmount = 0
+      for (let key in amountTypes) {
+        totalAmount += amountTypes[key].totalAmount
+      }
+      for (let key in amountTypes) {
+        amountTypes[key].percentage =
+            parseFloat((amountTypes[key].totalAmount / totalAmount * 100)
+                .toFixed(2)) + '%'
+      }
+      this.listProps = Object.entries(amountTypes)
+          .sort((a, b) => b[1].totalAmount - a[1].totalAmount)
+          .map(item => item[1]);
+
+      console.log(this.listProps)
     }
-
-
   },
   created() {
     this.$store.commit('getRecords')
