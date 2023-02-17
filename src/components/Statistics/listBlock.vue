@@ -11,7 +11,7 @@
       <div class="dataList" v-for="(item,key) in value.records" :key="key">
         <div class="dataType">
           <SvgIcon :name="item.svgName"/>
-          <span style="margin-left: 10px">{{ item.tagName }}</span>
+          <span style="margin-left: 10px">{{ item.note || item.tagName }}</span>
         </div>
         <span>{{ item.account }}</span>
       </div>

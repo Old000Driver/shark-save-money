@@ -23,16 +23,16 @@
           </select>
         </div>
         <div class="income">
-          <span>收入</span>
+          <span style="white-space: nowrap;">收入</span>
           <div class="Bold">
-            {{ Math.abs(zTotal)  }}
+            {{ sTotal }}
             <div></div>
           </div>
         </div>
       </div>
       <div class="expenses">
         <span>支出</span>
-        <div class="Bold">{{ sTotal }}</div>
+        <div class="Bold">{{ Math.abs(zTotal) }}</div>
       </div>
     </div>
   </header>
@@ -148,7 +148,6 @@ header {
       justify-content: center;
       align-items: flex-start;
       flex-direction: column;
-      flex-wrap: nowrap;
     }
 
     .timeSelector {
