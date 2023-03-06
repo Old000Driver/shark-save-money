@@ -4,7 +4,7 @@
       <top-nav @changeType="getType"/>
       <Chart :chartProps=chartProps :timeType="timeType" :amountType="amountType"/>
       <div class="footerWrapper">
-      <footer-list :amountType="amountType" :listProps="listProps"/>
+        <footer-list :amountType="amountType" :listProps="listProps"/>
       </div>
     </div>
   </Layout>
@@ -127,6 +127,7 @@ export default Vue.extend({
       }
 
       dates = this.getDates(timeType)
+      // console.log('timeType', timeType, records)
 
       for (let index in records) {
         let item = records[index]
@@ -175,7 +176,6 @@ export default Vue.extend({
       }
 
       dates = this.getDates(timeType)
-
       for (let index in records) {
         let item = records[index]
         let day = timeType === 'year' ?
@@ -219,18 +219,20 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
-.chartWrapper{
+.chartWrapper {
   display: flex;
   flex-direction: column;
 
   width: 100%;
   height: 100%;
-  >.footerWrapper{
+
+  > .footerWrapper {
     height: 100%;
     flex-grow: 1;
   }
 }
-footer{
+
+footer {
   height: 100%;
 }
 </style>
