@@ -4,7 +4,7 @@
 set -e
 
 # 构建
-npm run build
+pnpm run build
 
 # cd 到构建输出的目录下
 cd dist
@@ -20,6 +20,6 @@ git commit -m 'deploy'
 # git push -f git@github.com:<USERNAME>/<USERNAME>.github.io.git master
 
 # 部署到 https://<USERNAME>.github.io/<REPO>
- git push -f git@gitee.com:gja_001/shark-save-money-website.git master:gh-pages
+ git push -f git@github.com:Old000Driver/shark-save-money-website.git master
 
 cd -
